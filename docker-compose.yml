@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  rag-evaluator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - LANGFUSE_SECRET_KEY=${LANGFUSE_SECRET_KEY}
+      - LANGFUSE_PUBLIC_KEY=${LANGFUSE_PUBLIC_KEY}
+      - LANGFUSE_HOST=${LANGFUSE_HOST:-https://cloud.langfuse.com}
+      - MONGODB_URI=${MONGODB_URI}
+      - MONGODB_DB_NAME=${MONGODB_DB_NAME:-genieai}
+      - SEARCH_API_URL=${SEARCH_API_URL:-https://coachs-production.onrender.com/service/test/transcribe-search}
+      - CHAT_API_URL=${CHAT_API_URL:-https://coachs-production.onrender.com/service/master_coach/chat/stream}
+    volumes:
+      # Mount for persistent storage of results if needed
+      - ./results:/app/results
+    # Override the default command if needed
+    # command: python main.py --limit 50 --force-run 
